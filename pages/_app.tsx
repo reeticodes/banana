@@ -1,3 +1,5 @@
+import { UserProvider } from '@supabase/auth-helpers-react'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { GeistProvider, CssBaseline } from '@geist-ui/core'
 import 'tailwindcss/tailwind.css'
 import 'inter-ui/inter.css'
@@ -7,7 +9,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <GeistProvider>
       <CssBaseline />
-      <Component {...pageProps} />
+      <UserProvider supabaseClient={supabaseClient}>
+        <Component {...pageProps} />
+      </UserProvider>
     </GeistProvider>
   )
 }
