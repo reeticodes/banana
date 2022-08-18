@@ -2,9 +2,10 @@ import NextLink from 'next/link'
 import { Text, Input, Button, Divider, Link } from '@geist-ui/core'
 import type { NextPage } from 'next'
 
-const Home: NextPage = () => {
+const Register: NextPage = () => {
   return (
     <div className="flex min-h-screen flex-row">
+      <div className="canvas w-96 sm:hidden md:w-40" />
       <section className="box-border w-96 flex-shrink-0 p-12 sm:w-screen">
         <header className="mb-10">
           <Text h3 className="m-0">
@@ -15,7 +16,7 @@ const Home: NextPage = () => {
           </Text>
         </header>
         <form className="mb-10 grid gap-3">
-          <Text h4>Log in to your vault</Text>
+          <Text h4>Create your account</Text>
           <Input htmlType="email" width="100%">
             <Text small b>
               Email Address
@@ -26,8 +27,13 @@ const Home: NextPage = () => {
               Password
             </Text>
           </Input.Password>
+          <Input.Password width="100%">
+            <Text small b>
+              Confirm Password
+            </Text>
+          </Input.Password>
           <Button htmlType="submit" shadow type="success">
-            Log In
+            Sign Up
           </Button>
           <Divider my={4}>
             <Text small b>
@@ -35,21 +41,20 @@ const Home: NextPage = () => {
             </Text>
           </Divider>
           <Button shadow type="secondary">
-            Log In With Google
+            Sign Up With Google
           </Button>
         </form>
         <Text>
-          Don&apos;t have an account?{' '}
-          <NextLink href="/register">
+          Already have an account?{' '}
+          <NextLink href="/">
             <Link color className="whitespace-nowrap">
-              Sign Up
+              Log In
             </Link>
           </NextLink>
         </Text>
       </section>
-      <div className="canvas w-full flex-grow sm:hidden" />
     </div>
   )
 }
 
-export default Home
+export default Register
