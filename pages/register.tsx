@@ -1,6 +1,5 @@
 import * as React from 'react'
 import NextLink from 'next/link'
-import { useRouter } from 'next/router'
 import { Text, Input, Button, Divider, Link, Fieldset, Code, useToasts } from '@geist-ui/core'
 import { getUser, supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -12,7 +11,6 @@ const Register: NextPage = () => {
   const [verifyEmail, setVerifyEmail] = React.useState<false | string>(false)
   const { register, handleSubmit, formState, setError, clearErrors } = useForm<SignUpTypes>()
   const { setToast } = useToasts()
-  const router = useRouter()
 
   const onSubmit: SubmitHandler<SignUpTypes> = async ({ email, password, confirm }) => {
     if (password !== confirm)
@@ -29,6 +27,11 @@ const Register: NextPage = () => {
       return setLoading(false)
     }
     setVerifyEmail(email)
+  }
+
+  const withAuthProvider = async () => {
+    const { error } = await supabaseClient.auth.signIn({ provider: 'google' })
+    if (error) return setToast({ text: error.message, type: 'error' })
   }
 
   return (
@@ -63,7 +66,10 @@ const Register: NextPage = () => {
             </Fieldset.Footer>
           </Fieldset>
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="mb-10 grid w-72 gap-3">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mb-10 grid w-72 gap-3 sm:w-screen sm:pr-24"
+          >
             <Text h4>Create your account</Text>
             <Input
               htmlType="email"
@@ -106,7 +112,7 @@ const Register: NextPage = () => {
                 OR
               </Text>
             </Divider>
-            <Button shadow type="secondary">
+            <Button shadow type="secondary" onClick={withAuthProvider}>
               Sign Up With Google
             </Button>
           </form>
