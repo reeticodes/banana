@@ -1,6 +1,5 @@
 import * as React from 'react'
 import NextLink from 'next/link'
-import { useRouter } from 'next/router'
 import { Text, Input, Button, Divider, Link, useToasts } from '@geist-ui/core'
 import { getUser, supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -11,7 +10,6 @@ const LogIn: NextPage = () => {
   const [loading, setLoading] = React.useState<boolean>(false)
   const { register, handleSubmit, formState } = useForm<LogInTypes>()
   const { setToast } = useToasts()
-  const router = useRouter()
 
   const onSubmit: SubmitHandler<LogInTypes> = async ({ email, password }) => {
     setLoading(true)
@@ -20,7 +18,11 @@ const LogIn: NextPage = () => {
       setToast({ text: error.message, type: 'error' })
       return setLoading(false)
     }
-    router.push('/u/dashboard')
+  }
+
+  const withAuthProvider = async () => {
+    const { error } = await supabaseClient.auth.signIn({ provider: 'google' })
+    if (error) return setToast({ text: error.message, type: 'error' })
   }
 
   return (
@@ -65,7 +67,7 @@ const LogIn: NextPage = () => {
               OR
             </Text>
           </Divider>
-          <Button shadow type="secondary">
+          <Button shadow type="secondary" onClick={withAuthProvider}>
             Log In With Google
           </Button>
         </form>
