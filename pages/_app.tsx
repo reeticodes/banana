@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           box-sizing: border-box !important;
         }
         .canvas {
-          background-color: #ff0080;
+          background-color: #ff4800;
           background-image: radial-gradient(#e3e3e3 1px, transparent 0),
             radial-gradient(#e3e3e3 1px, transparent 0);
           background-position: 0 0, 25px 25px;
